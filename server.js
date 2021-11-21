@@ -27,7 +27,7 @@ const fs = require('fs');
 (async () => {
     var data = [];
 
-    const browser = await puppeteer.launch({headless: false});
+    const browser = await puppeteer.launch({headless: true});
     const page = await browser.newPage();
     //setUserAgent permet que le code fonctionne partout meme si headless est a true 
     //(Why this is interesting? Suppose you want to scrap a website using Puppeteer in headless mode and the target website put a protection by detecting the User Agent string (blocking ChromeHeadless) then your scraping activity might be blocked.)
