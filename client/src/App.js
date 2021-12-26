@@ -6,6 +6,9 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Animes from './components/Animes';
 import Home from './Home';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import AnimeDetails from './components/AnimeDetails';
+
 
 function App() {
   const [animes, setAnimes] = useState([])
@@ -24,22 +27,24 @@ function App() {
   const test = "animes"
 
   return (
-    <div className="App">
-      <Header />
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-         <button onClick={animes}>
-          Dis Bonjour
-        </button> }
-         <p>{array}</p> 
-      </header> */}
-      <Home />
-      {/* <Animes animes={('array')}/> */}
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/animes">
+            <div>lol</div>
+          </Route>
+          <Route exact path="/animes/:id">
+            <AnimeDetails />
+          </Route>
+        </Switch>
+        <Footer />
+      </div>
+    </Router>
+    
   );
   
 }

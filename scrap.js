@@ -15,6 +15,7 @@ async function getOnAdn(array){
         return Object.values(json)[0][0]['shows']; 
     });
 	for (element of adn){
+		element["site"] = "adn"
 		array.push(element)
 	}
 	// console.log(adn)
@@ -29,7 +30,11 @@ async function getOnWakanim(array){
 	await page.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36")
 	await page.goto('https://www.wakanim.tv/fr/v2/whats-new');
 	const wakanims = await page.evaluate(() => {
-		var elements = Array.from(document.querySelectorAll('div.WhatsNew-container:nth-child(4) > section:nth-child(1) > div:nth-child(2) > ul:nth-child(1) > li'))
+		var elements = Array.from(
+			document.querySelectorAll('div.WhatsNew-container:nth-child(4) > section:nth-child(1) > div:nth-child(2) > ul:nth-child(1) > li'))
+			.filter((value) => {
+			return value.getAttribute('style') != 'display: none;'
+		})
 		elements = elements.map(element=>{
 			return {
 				title: element.querySelector('.slider_item_title > strong')?.innerHTML,
@@ -43,6 +48,7 @@ async function getOnWakanim(array){
 				subbed: element?.getAttribute('data-subbed'),
 				dubbed: element?.getAttribute('data-dubbed'),
 				url: element.querySelector('.slider_item_link_invis').href,
+				site: 'wakanim',
 			}
 		})
 		return elements
@@ -74,6 +80,7 @@ async function getOnCrunchyroll(array){
 				sortis: document.querySelector('.large-margin-bottom:nth-child(3) > .strong')?.textContent.replace('Simulcast en ligne ', '').replace('les ', ''),
 				genres : Array.from(document.querySelectorAll('.large-margin-bottom:nth-child(5) li:nth-child(2) > a')).map(e => e.innerHTML),
 				url: document.querySelector('meta[property="og:url"]').content,
+				site: 'crunchyroll',
 			}
 		});
 		array.push(crunchyroll)
@@ -82,7 +89,7 @@ async function getOnCrunchyroll(array){
 	console.info("Analyse Crunchyroll Terminé",array.length)
 }
 function onTerminate(array){
-	if(onTerminate.crunchyroll && onTerminate.adn && onTerminate.wakanim){
+	if(onTerminate.adn && onTerminate.crunchyroll && onTerminate.wakanim){
 		// la suite
 		array.forEach((item, i) => {
 			item.id = i + 1;
