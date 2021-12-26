@@ -15,6 +15,7 @@ async function getOnAdn(array){
         return Object.values(json)[0][0]['shows']; 
     });
 	for (element of adn){
+		element["site"] = "adn"
 		array.push(element)
 	}
 	// console.log(adn)
@@ -29,19 +30,25 @@ async function getOnWakanim(array){
 	await page.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36")
 	await page.goto('https://www.wakanim.tv/fr/v2/whats-new');
 	const wakanims = await page.evaluate(() => {
-		var elements = Array.from(document.querySelectorAll('div.WhatsNew-container:nth-child(4) > section:nth-child(1) > div:nth-child(2) > ul:nth-child(1) > li'))
+		var elements = Array.from(
+			document.querySelectorAll('div.WhatsNew-container:nth-child(4) > section:nth-child(1) > div:nth-child(2) > ul:nth-child(1) > li'))
+			.filter((value) => {
+			return value.getAttribute('style') != 'display: none;'
+		})
 		elements = elements.map(element=>{
 			return {
 				title: element.querySelector('.slider_item_title > strong')?.innerHTML,
-				img: element.querySelector('.slider_item_image > img')?.getAttribute('data-src'),
+				image: element.querySelector('.slider_item_image > img')?.getAttribute('data-src'),
 				season: element.querySelector('.slider_item_season_title')?.innerText.trim(),
 				episodeSortie: element.querySelector('.tooltip_text > strong')?.innerHTML,
-				synopsis: element.querySelector('.tooltip_text > br')?.nextSibling.data.trim(),
+				summary: element.querySelector('.tooltip_text > br')?.nextSibling.data.trim(),
 				genres: Array.from(element.querySelectorAll('.tooltip_genre')).map(e => e.text.replace(', ','')),
 				originalName: element.getAttribute('data-originalname'),
 				rating: element?.getAttribute('data-rating'),
 				subbed: element?.getAttribute('data-subbed'),
 				dubbed: element?.getAttribute('data-dubbed'),
+				url: element.querySelector('.slider_item_link_invis').href,
+				site: 'wakanim',
 			}
 		})
 		return elements
@@ -66,12 +73,14 @@ async function getOnCrunchyroll(array){
 		await page.goto(element + '/more');
 		const crunchyroll = await page.evaluate(() => {
 			return {
-				titre: document.querySelector('h1.ellipsis > span')?.innerHTML,
-				img: document.querySelector('.poster')?.getAttribute('src'),
-				synopsis: document.querySelector('.series-extended-information')?.innerText,
+				title: document.querySelector('h1.ellipsis > span')?.innerHTML,
+				image: document.querySelector('.poster')?.getAttribute('src'),
+				summary: document.querySelector('.series-extended-information')?.innerText,
 				rating: document.querySelector('div.xsmall-margin-bottom:nth-child(2) > div:nth-child(2) > meta')?.getAttribute('content'),
 				sortis: document.querySelector('.large-margin-bottom:nth-child(3) > .strong')?.textContent.replace('Simulcast en ligne ', '').replace('les ', ''),
 				genres : Array.from(document.querySelectorAll('.large-margin-bottom:nth-child(5) li:nth-child(2) > a')).map(e => e.innerHTML),
+				url: document.querySelector('meta[property="og:url"]').content,
+				site: 'crunchyroll',
 			}
 		});
 		array.push(crunchyroll)
@@ -80,10 +89,13 @@ async function getOnCrunchyroll(array){
 	console.info("Analyse Crunchyroll Terminé",array.length)
 }
 function onTerminate(array){
-	if(onTerminate.wakanim && onTerminate.crunchyroll && onTerminate.adn){
+	if(onTerminate.adn && onTerminate.crunchyroll && onTerminate.wakanim){
 		// la suite
+		array.forEach((item, i) => {
+			item.id = i + 1;
+		  })
 		// console.log(array)
-		fs.writeFileSync('donnee.json', JSON.stringify(array));
+		fs.writeFileSync('donnee.json', JSON.stringify(array))
 		console.info("Donnée récupérer dans donnee.json", array.length, "Object");
 	}
 }
