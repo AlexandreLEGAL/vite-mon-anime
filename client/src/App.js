@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Animes from './components/Animes';
+import About from './components/About';
 import Home from './Home';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import AnimeDetails from './components/AnimeDetails';
@@ -36,6 +37,9 @@ function App() {
           </Route> */}
           <Route exact path="/">
             <Home />
+          </Route>
+          <Route exact path="/about">
+            <About />
           </Route>
           <Route exact path="/animes/:id">
             <AnimeDetails />
