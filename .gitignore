@@ -1,2 +1,2 @@
-/node_modules
-/donnee.json
+node_modules/*
+donnee.json

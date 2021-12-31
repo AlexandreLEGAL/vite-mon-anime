@@ -38,15 +38,15 @@ async function getOnWakanim(array){
 		elements = elements.map(element=>{
 			return {
 				title: element.querySelector('.slider_item_title > strong')?.innerHTML,
-				image: element.querySelector('.slider_item_image > img')?.getAttribute('data-src'),
+				image: element.querySelector('.slider_item_image > img').getAttribute('data-src'),
 				season: element.querySelector('.slider_item_season_title')?.innerText.trim(),
 				episodeSortie: element.querySelector('.tooltip_text > strong')?.innerHTML,
 				summary: element.querySelector('.tooltip_text > br')?.nextSibling.data.trim(),
 				genres: Array.from(element.querySelectorAll('.tooltip_genre')).map(e => e.text.replace(', ','')),
 				originalName: element.getAttribute('data-originalname'),
-				rating: element?.getAttribute('data-rating'),
-				subbed: element?.getAttribute('data-subbed'),
-				dubbed: element?.getAttribute('data-dubbed'),
+				rating: element.getAttribute('data-rating'),
+				subbed: element.getAttribute('data-subbed'),
+				dubbed: element.getAttribute('data-dubbed'),
 				url: element.querySelector('.slider_item_link_invis').href,
 				site: 'wakanim',
 			}
