@@ -31,11 +31,11 @@ function App() {
       <div className="App">
         <Header />
         <Switch>
+          {/* <Route exact path="/">
+            <div>Bienvenue sur mon Vite mon Anime !</div>
+          </Route> */}
           <Route exact path="/">
             <Home />
-          </Route>
-          <Route exact path="/animes">
-            <div>lol</div>
           </Route>
           <Route exact path="/animes/:id">
             <AnimeDetails />
