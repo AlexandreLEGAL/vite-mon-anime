@@ -1,9 +1,12 @@
 {
+  "homepage": "https://alexandrelegal.github.io/vite-mon-anime/",
   "name": "vite_mon_anime",
   "version": "1.0.0",
   "description": "Repertorie les animes qui sorte sur les platformes française",
   "main": "server.js",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "scrap": "node scrap.js",
@@ -31,6 +34,7 @@
     "semver": "^7.3.5"
   },
   "devDependencies": {
+    "gh-pages": "^3.2.3",
     "nodemon": "^2.0.15",
     "web-vitals": "^2.1.2"
   },
@@ -40,6 +44,5 @@
   },
   "bugs": {
     "url": "https://gitlab.com/Kokyro/vite-mon-anime/issues"
-  },
-  "homepage": "https://gitlab.com/Kokyro/vite-mon-anime#readme"
+  }
 }
