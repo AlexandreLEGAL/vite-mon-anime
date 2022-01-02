@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -b main -d client/build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "scrap": "node scrap.js",

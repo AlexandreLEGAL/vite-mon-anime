@@ -13,9 +13,14 @@ const AnimeDetails = () => {
                     <div className="card">
                         <h2>{anime.title}</h2>
                         <a href={anime.url} target="_blank"><img src={anime.image} class="card-img-top img-detail img-responsive" alt="..."></img></a>
-                        <p>{anime.rating} &#x2605; </p>
-                        <p>Genres: {anime.genres}</p>
-                        <p>{anime.summary}</p>
+                        <p class="card-text">Note: {anime.rating ? anime.rating : '?'} &#x2605;</p>
+                        <p>Genres: 
+                            {anime.genres?.length ? anime.genres.map(
+                                genre => genre.toLowerCase() && genre.charAt(0).toUpperCase() + genre.slice(1))
+                                .join(', ') : '?'
+                            }
+                        </p>
+                        <p>Résumé: {anime.summary ? anime.summary : '?'}</p>
                     </div>
                 </div>
             )}

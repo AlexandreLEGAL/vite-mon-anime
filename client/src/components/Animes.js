@@ -57,7 +57,7 @@ const Animes = ({animes, title}) => {
                             <Link to={`/animes/${anime.id}`}>
                                 <h6 class="card-title">{anime.title}</h6>
                             </Link>
-                            <p class="card-text">Note : {anime.rating} &#x2605;</p>
+                            <p class="card-text">Note : {anime.rating ? anime.rating : '?'} &#x2605;</p>
                         </div>
                         {/* <button type="button" class="btn btn-primary" onClick={() => handleDelete(anime.id)}>delete anime</button> */}
                     </div> 
