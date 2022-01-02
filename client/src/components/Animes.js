@@ -17,7 +17,7 @@ const Animes = ({animes, title}) => {
                 <input type="checkbox" onChange={event => {modifySiteFilter(event.target.title)}} ></input>
                 <input type="checkbox" onChange={event => {modifySiteFilter(event.target.title)}} ></input> */}
             </div>
-            <div class="row row-cols-6 g-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 row-cols-xl-6 g-3">
             {Object.values(animes)
             // .filter((val) => {
             //     if (siteFilter == []){
@@ -53,9 +53,9 @@ const Animes = ({animes, title}) => {
                         </div>
                             {/* <a href={anime.url} target="_blank" ><img src={anime.image} class="card-img-top" alt="..."></img></a> */}
                             {/* <p>test</p> */}
-                        <div class="card-body">
+                        <div class="card-body text-truncate-container">
                             <Link to={`/animes/${anime.id}`}>
-                                <h6 class="card-title text-truncate">{anime.title}</h6>
+                                <h6 class="card-title">{anime.title}</h6>
                             </Link>
                             <p class="card-text">Note : {anime.rating} &#x2605;</p>
                         </div>
